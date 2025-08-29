@@ -39,7 +39,6 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<AuthResponse> logout() {
-        // Simple logout endpoint - client side should remove the token
         return ResponseEntity.ok(new AuthResponse("Logout successful. Please remove the token from client side."));
     }
 

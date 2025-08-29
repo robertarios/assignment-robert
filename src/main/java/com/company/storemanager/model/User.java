@@ -35,7 +35,6 @@ public class User {
     @Column
     private LocalDateTime updatedAt;
 
-    // Gunakan @ElementCollection dengan properti yang benar
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")

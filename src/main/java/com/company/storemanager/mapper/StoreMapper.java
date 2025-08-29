@@ -30,7 +30,7 @@ public class StoreMapper {
         dto.setBranch(toBranchResponseDTO(store.getBranch()));
         dto.setIsActive(store.getIsActive());
         dto.setIsDeleted(store.getIsDeleted());
-        dto.setIsWhitelisted(isStoreWhitelisted(store.getId())); // Tambahkan whitelist status
+        dto.setIsWhitelisted(isStoreWhitelisted(store.getId()));
         dto.setCreatedAt(store.getCreatedAt());
         dto.setUpdatedAt(store.getUpdatedAt());
         return dto;
@@ -73,7 +73,6 @@ public class StoreMapper {
                 .collect(Collectors.toList());
     }
 
-    // Method untuk mengecek apakah store di-whitelist
     private Boolean isStoreWhitelisted(Long storeId) {
         return whitelistStoreRepository.findByStoreIdAndIsActiveTrue(storeId).isPresent();
     }

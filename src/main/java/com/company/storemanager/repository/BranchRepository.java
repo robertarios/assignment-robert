@@ -22,7 +22,6 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
     @Query("UPDATE Branch b SET b.isActive = false, b.isDeleted = true WHERE b.id = :id")
     void softDelete(@Param("id") Long id);
     
-    // Tambahkan method untuk update juga
     @Modifying
     @Transactional
     @Query("UPDATE Branch b SET b.name = :name, b.code = :code WHERE b.id = :id")

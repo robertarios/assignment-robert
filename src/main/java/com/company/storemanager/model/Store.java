@@ -24,7 +24,7 @@ public class Store {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id", nullable = false)
-    @JsonIgnoreProperties("stores") // Prevent infinite recursion
+    @JsonIgnoreProperties("stores")
     private Branch branch;
 
     @Column(nullable = false)

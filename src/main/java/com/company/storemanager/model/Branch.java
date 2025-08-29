@@ -22,11 +22,11 @@ public class Branch {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "province_id", nullable = false)
-    @JsonIgnoreProperties("branches") // Prevent infinite recursion
+    @JsonIgnoreProperties("branches")
     private Province province;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("branch") // Prevent infinite recursion
+    @JsonIgnoreProperties("branch")
     private List<Store> stores;
 
     @Column(nullable = false)

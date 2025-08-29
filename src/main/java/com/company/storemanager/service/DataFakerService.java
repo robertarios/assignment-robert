@@ -48,17 +48,14 @@ public class DataFakerService {
         try {
             System.out.println("Starting fake data creation...");
             
-            // Create provinces (all provinces in Indonesia)
             List<Province> provinces = createProvinces();
             provinceRepository.saveAll(provinces);
             System.out.println("Created " + provinces.size() + " provinces");
 
-            // Create branches (100 branches distributed across provinces)
             List<Branch> branches = createBranches(provinces);
             branchRepository.saveAll(branches);
             System.out.println("Created " + branches.size() + " branches");
 
-            // Create stores (20,000 stores distributed across branches)
             createStoresInBatches(branches);
 
             System.out.println("Fake data created successfully!");
@@ -94,7 +91,6 @@ public class DataFakerService {
         List<Branch> branches = new ArrayList<>();
         usedBranchCodes.clear();
         
-        // Create 2-4 branches per province
         for (Province province : provinces) {
             int branchesCount = faker.random().nextInt(2, 5);
             String provinceAbbrev = getProvinceAbbreviation(province.getName());
@@ -103,7 +99,6 @@ public class DataFakerService {
                 Branch branch = new Branch();
                 branch.setName(faker.company().name() + " Branch");
                 
-                // Generate unique branch code
                 String branchCode = generateUniqueBranchCode(provinceAbbrev, i);
                 
                 branch.setCode(branchCode);
@@ -116,7 +111,6 @@ public class DataFakerService {
             }
         }
 
-        // Add extra branches to reach ~100
         while (branches.size() < 100) {
             Province randomProvince = provinces.get(faker.random().nextInt(provinces.size()));
             String provinceAbbrev = getProvinceAbbreviation(randomProvince.getName());
@@ -195,7 +189,7 @@ public class DataFakerService {
     private void createStoresInBatches(List<Branch> branches) {
         usedStoreCodes.clear();
         int totalStores = 0;
-        int batchSize = 500; // Smaller batch size to avoid memory issues
+        int batchSize = 500;
         
         for (Branch branch : branches) {
             int storesPerBranch = faker.random().nextInt(180, 220);
@@ -207,25 +201,22 @@ public class DataFakerService {
                     storesBatch.add(store);
                     totalStores++;
                     
-                    // Save in batches
                     if (storesBatch.size() >= batchSize) {
                         storeRepository.saveAll(storesBatch);
                         storesBatch.clear();
-                        System.out.println("Saved " + totalStores + " stores so far...");
+                        System.out.println("Create " + totalStores + " stores");
                     }
                 }
             }
             
-            // Save remaining stores in the batch
             if (!storesBatch.isEmpty()) {
                 storeRepository.saveAll(storesBatch);
-                System.out.println("Saved " + totalStores + " stores so far...");
+                System.out.println("Create " + totalStores + " stores");
             }
         }
         
         System.out.println("Total stores created: " + totalStores);
         
-        // Create whitelist stores
         createWhitelistStores();
     }
 
@@ -234,7 +225,7 @@ public class DataFakerService {
         store.setName(faker.company().name() + " Store");
         
         String storeCode = generateUniqueStoreCode(branch.getCode(), index);
-        if (storeCode == null) return null; // Skip if couldn't generate unique code
+        if (storeCode == null) return null;
         
         store.setCode(storeCode);
         store.setAddress(faker.address().fullAddress());
@@ -267,7 +258,6 @@ public class DataFakerService {
         List<Store> allStores = storeRepository.findAll();
         List<WhitelistStore> whitelistStores = new ArrayList<>();
         
-        // Select 5% of stores to be whitelisted
         int whitelistCount = (int) (allStores.size() * 0.05);
         Set<Long> selectedStoreIds = new HashSet<>();
         
@@ -283,7 +273,6 @@ public class DataFakerService {
             }
         }
         
-        // Save in batches
         int batchSize = 100;
         for (int i = 0; i < whitelistStores.size(); i += batchSize) {
             int end = Math.min(i + batchSize, whitelistStores.size());

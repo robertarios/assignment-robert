@@ -12,7 +12,7 @@ public class StoreResponseDTO {
     private BranchResponseDTO branch;
     private Boolean isActive;
     private Boolean isDeleted;
-    private Boolean isWhitelisted; // Tambahkan field ini
+    private Boolean isWhitelisted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

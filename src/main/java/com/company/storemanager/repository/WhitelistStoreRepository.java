@@ -21,7 +21,6 @@ public interface WhitelistStoreRepository extends JpaRepository<WhitelistStore, 
     @Query("UPDATE WhitelistStore ws SET ws.isActive = false WHERE ws.id = :id")
     void deactivate(@Param("id") Long id);
     
-    // Tambahkan method untuk deactivate by storeId juga
     @Modifying
     @Transactional
     @Query("UPDATE WhitelistStore ws SET ws.isActive = false WHERE ws.store.id = :storeId")

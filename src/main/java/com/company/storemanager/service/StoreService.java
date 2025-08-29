@@ -38,7 +38,6 @@ public class StoreService {
         List<Store> stores = storeRepository.findWhitelistedStores();
         List<StoreResponseDTO> responseDTOs = storeMapper.toStoreResponseDTOList(stores);
         
-        // Force set isWhitelisted to true for whitelisted stores
         responseDTOs.forEach(dto -> dto.setIsWhitelisted(true));
         
         return responseDTOs;
